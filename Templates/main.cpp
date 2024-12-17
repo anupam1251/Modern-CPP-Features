@@ -60,7 +60,29 @@ std::pair<const T&, const T&> MinMax(const T* pArr, size_t arrSize) {
 	return std::make_pair(s_elem, l_elem);
 }
 
+template<typename T1, typename T2>
+auto max(const T1 &a, const T2 &b) ->decltype(b<a?a:b)
+{
+	std::cout << "using Global max() ";
+	return b < a ? a : b;
+}
+
+namespace Mynamespace {
+	template<class T>
+	T max(T a, T b)
+	{
+		std::cout << "Using MyNameSpace max() ";
+		return b < a ? a : b;
+	}
+
+}
+
+template<typename T>
+T* foo(T*) {
+	return nullptr;
+}
 int main() {
+	
 	std::cout << square(5) << std::endl;
 	std::cout << square(5.5) << std::endl;
 	std::cout << square(6.5f) << std::endl;
@@ -92,6 +114,25 @@ int main() {
 
 	std::cout << "MinMax of arr1 : " << MinMax(arr1, 5).first<<" " <<MinMax(arr1,5).second << "\n";
 	std::cout << "MinMax of arr2 : " << MinMax(arr2, 5).first << " " << MinMax(arr2, 5).second << "\n";
+	
+	int i = 42;
+
+	std::cout << "max(7,i): " << max(7, i) << '\n';
+	std::cout << "max(7,i): " << ::max(7, i) << '\n';
+	double f1 = 3.4;
+	double f2 = -6.7;
+	std::cout << "max(f1,f2): " << ::max(f1, f2) << '\n';
+	std::string s1 = "mathematics";
+	std::string s2 = "math";
+	std::cout << "max(s1,s2): " << ::max(s1, s2) << '\n';
+
+	void* vp = nullptr;
+	std::cout << foo(vp) << '\n';
+
+	std::cout << max(static_cast<double> (5), 5.2) << '\n';
+	std::cout << max<double>(5, 5.2) << '\n';
+
+	std::cout << max(6.1, 5.2) << '\n';
 
 	return 0;
 }
