@@ -1,6 +1,10 @@
+// Source - Rupesh Yadav , YouTube - CppNuts
+
+
 #include <Windows.h>
 #include <iostream>
 #include <thread>
+#include <chrono>
 
 
 /*
@@ -127,3 +131,50 @@ int main() {
 	std::thread t(&Base::fun, 10);
 	t.join();
 }  */
+
+
+//Use of join(), detach() and joinable() in thread c++
+
+//Join Notes
+
+//1. Once a thread is started we wait for this thread to finish by calling join() function on thread object
+//2. double join will result into program termination
+//3. if needed we should check thread is joinable before join() (using joinable() function)
+/*
+void run(int x) {
+	while (x-- > 0)
+		std::cout << "Anupam" << '\n';
+	std::this_thread::sleep_for(std::chrono::seconds(3));
+}
+int main() {
+	std::cout << "main()" << '\n';
+	std::thread t(run, 10);
+	t.join();
+	if(t.joinable())
+		t.join();
+	std::cout << "main() after" << '\n';
+	return 0;
+}    */
+
+//Detach Notes
+
+//1. This is used to detach newly created thread from parent thread
+//2. Always check before detaching a thread that it is joinable otherwise we may end up
+//   double detaching & result will be program termination
+//3. If we have detached the thread and main() is returning then the detached thread execution is suspended.
+
+/*
+void run(int x) {
+	while (x-- > 0) {
+		std::cout << "Anupam" << '\n';
+	}
+	std::cout << "thread finished" << '\n';
+}
+int main() {
+	std::cout << "main()" << '\n';
+	std::thread t(run, 10);
+	t.detach();
+	std::cout << "main() after" << '\n';
+	std::this_thread::sleep_for(std::chrono::seconds(2));
+	return 0;
+} */
