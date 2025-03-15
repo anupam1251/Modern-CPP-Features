@@ -5,6 +5,7 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <mutex>
 
 
 /*
@@ -178,3 +179,61 @@ int main() {
 	std::this_thread::sleep_for(std::chrono::seconds(2));
 	return 0;
 } */
+
+/*
+void run(int x) {
+	for(int i = 0 ; i < 100 ; i++)
+		std::cout <<i<<" Anupam" << '\n';
+}
+int main() {
+
+	std::thread t1(run, 100);
+	while (true) {
+
+	}
+	
+	t1.join();
+	return 0;
+
+} */
+
+/*
+void run() {
+	int i = 0;
+	while (true) {
+		std::cout << i++ << " Anupam" << '\n';
+	}
+}
+int main() {
+
+	std::thread t1(run);
+	t1.join();
+
+	std::cout << "main thread" << '\n';
+	return 0;
+} */
+
+
+//Introduction to mutex
+
+
+std::mutex mtx;
+int counter = 0;
+
+void increment() {
+	for (int i = 0; i < 100000; i++) {
+		mtx.lock();
+		counter++;
+		mtx.unlock();
+	}
+}
+
+int main() {
+	std::thread t1(increment);
+	std::thread t2(increment);
+
+	t1.join();
+	t2.join();
+	std::cout << "Counter : " << counter << '\n';
+	return 0;
+} 
