@@ -228,12 +228,35 @@ void increment() {
 	}
 }
 
+
+void calculatePartailSum(int *arr, int size, int start, int end, int& sum) {
+	for (int i = start; i < end; i++) {
+		sum += arr[i];
+	}
+}
+
 int main() {
-	std::thread t1(increment);
+	/*std::thread t1(increment);
 	std::thread t2(increment);
 
 	t1.join();
 	t2.join();
 	std::cout << "Counter : " << counter << '\n';
+
+	*/
+
+	int arr[10]{ 1,2,3,4,5,6,7,8,9,10 };
+	int size = sizeof(arr) / sizeof(arr[0]);
+	int mid = size / 2;
+	int sum1 = 0, sum2 = 0;
+
+	std::thread t1(calculatePartailSum, arr, size, 0, mid, std::ref(sum1));
+	std::thread t2(calculatePartailSum, arr, size, mid, size, std::ref(sum2));
+
+	t1.join();
+	t2.join();
+
+	std::cout << "Sum of Array : " << sum1 + sum2 << '\n';
+
 	return 0;
 } 
