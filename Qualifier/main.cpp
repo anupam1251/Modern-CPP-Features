@@ -9,7 +9,7 @@ using namespace std;
 // 2. volatile  - prevent compiler optimization on a variable that can change unexpectedly
 // 3. mutable   - allows a class member to be modified even if the containing object is const
 
-
+/*
 volatile int currTemp = 25;
 
 void increasingTemparatue() {
@@ -38,4 +38,34 @@ int main() {
 
 	return  0;
 
+} 
+
+*/
+
+
+class Entity {
+	string m_Name;
+	mutable int debugCount = 0;
+public:
+
+	const string getName() const{
+		++debugCount;
+		return m_Name;
+	}
+
+};
+
+int main() {
+
+	const Entity e;
+	e.getName();
+
+	int x = 10;
+	
+	auto f = [=]() mutable{
+		x++;
+	};
+
+	f();
+	cout << x << '\n'; // value of x is not changing
 }
